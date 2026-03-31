@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enrollment Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/ui.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">EN</div>
+        <div>
+          <h1>Student Enrollment Workspace</h1>
+          <p>Camera capture + roster management</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a class="nav-link" href="index.html">Attendance</a>
+        <a class="nav-link active" href="enrollment.html">Enrollment</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="row-between">
+        <div>
+          <h2>Create Strong Enrollment Data Fast</h2>
+          <p>Enroll students with enrollment number and name, capture camera images, and keep roster synced with backend database. Folder names follow enrollment number exactly (for example `1`, `23`, `CSE42`).</p>
+        </div>
+        <span id="backendPill" class="pill">Backend Checking</span>
+      </div>
+      <div class="hero-grid">
+        <div class="metric">
+          <strong id="metricTotal">0</strong>
+          <span>Total Students</span>
+        </div>
+        <div class="metric">
+          <strong id="metricBusy">No</strong>
+          <span>Capture Running</span>
+        </div>
+        <div class="metric">
+          <strong id="metricMode">Fast</strong>
+          <span>Capture Profile</span>
+        </div>
+        <div class="metric">
+          <strong id="metricSearch">0</strong>
+          <span>Search Results</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="stack">
+        <article class="card">
+          <h3>Enrollment Form</h3>
+          <p class="sub">Use Save Details for roster only, or Start Camera Enrollment for full image capture + embeddings.</p>
+          <form id="enrollForm" style="margin-top:10px;">
+            <div class="grid-2">
+              <div>
+                <label for="enrollmentNo">Enrollment No</label>
+                <input id="enrollmentNo" name="enrollmentNo" placeholder="Ex: 1" maxlength="24" required>
+              </div>
+              <div>
+                <label for="fullName">Full Name</label>
+                <input id="fullName" name="fullName" placeholder="Ex: Aisha Khan" maxlength="64" required>
+              </div>
+            </div>
+            <div class="grid-2" style="margin-top:10px;">
+              <div>
+                <label for="sectionName">Section</label>
+                <input id="sectionName" name="sectionName" placeholder="Ex: CSE-A" maxlength="40">
+              </div>
+              <div>
+                <label for="rollNo">Roll Number</label>
+                <input id="rollNo" name="rollNo" placeholder="Ex: 14" maxlength="24">
+              </div>
+            </div>
+            <div class="row" style="margin-top:12px;">
+              <button id="saveBtn" class="btn btn-soft" type="submit">Save Details</button>
+              <button id="cameraBtn" class="btn btn-primary" type="button">Start Camera Enrollment</button>
+              <button id="cancelEditBtn" class="btn btn-warn" type="button" hidden>Cancel Edit</button>
+            </div>
+          </form>
+          <p id="formStatus" class="status"></p>
+        </article>
+
+        <article class="card">
+          <h3>Camera Capture Settings</h3>
+          <p class="sub">Fast profile is recommended for quick enrollment.</p>
+          <div class="grid-3" style="margin-top:10px;">
+            <div>
+              <label for="numImages">Images</label>
+              <input id="numImages" type="number" min="1" max="300" value="25">
+            </div>
+            <div>
+              <label for="cameraIndex">Camera Index</label>
+              <input id="cameraIndex" type="number" min="0" value="0">
+            </div>
+            <div>
+              <label for="captureInterval">Interval (sec)</label>
+              <input id="captureInterval" type="number" min="0.05" step="0.05" value="0.25">
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top:10px;">
+            <div>
+              <label for="minProbability">Min Probability</label>
+              <input id="minProbability" type="number" min="0.5" max="0.999" step="0.01" value="0.90">
+            </div>
+            <div>
+              <label for="cameraWidth">Camera Width</label>
+              <input id="cameraWidth" type="number" min="320" max="1920" value="640">
+            </div>
+            <div>
+              <label for="cameraHeight">Camera Height</label>
+              <input id="cameraHeight" type="number" min="240" max="1080" value="480">
+            </div>
+          </div>
+          <p id="cameraStatus" class="status">Camera enrollment ready.</p>
+        </article>
+
+        <article class="card">
+          <h3>Bulk Import</h3>
+          <p class="sub">Format per line: EnrollmentNo, Full Name, Section, RollNo</p>
+          <textarea id="bulkInput" placeholder="1, Rahul Verma, CSE-A, 11&#10;2, Sara Khan, CSE-B, 19"></textarea>
+          <div class="row" style="margin-top:10px;">
+            <button id="bulkImportBtn" class="btn btn-primary" type="button">Import Lines</button>
+            <button id="bulkClearBtn" class="btn btn-soft" type="button">Clear Text</button>
+          </div>
+          <p id="bulkStatus" class="status"></p>
+        </article>
+      </div>
+
+      <aside class="card">
+        <div class="row-between">
+          <div>
+            <h3>Roster Management</h3>
+            <p class="sub">Search, edit, delete, export, and sync.</p>
+          </div>
+          <span id="rosterPill" class="pill">0 Students</span>
+        </div>
+
+        <div class="grid-2" style="margin-top:10px;">
+          <div>
+            <label for="searchInput">Search</label>
+            <input id="searchInput" placeholder="Enrollment no, name, section, roll">
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <div class="row">
+              <button id="syncBtn" class="btn btn-soft" type="button">Sync Backend</button>
+              <button id="exportBtn" class="btn btn-soft" type="button">Export CSV</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <button id="clearAllBtn" class="btn btn-danger" type="button">Clear All Students</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Enrollment No</th>
+                <th>Name</th>
+                <th>Section</th>
+                <th>Roll No</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="rosterBody"></tbody>
+          </table>
+        </div>
+        <p id="rosterStatus" class="status"></p>
+      </aside>
+    </section>
+  </main>
+
+  <script src="assets/enrollment.js"></script>
+</body>
+</html>
+

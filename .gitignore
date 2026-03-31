@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Local database and generated artifacts
+data/attendance.db
+data/raw/*
+!data/raw/.gitkeep
+data/aligned/*
+!data/aligned/.gitkeep
+data/reports/*
+!data/reports/.gitkeep
+data/sessions/*
+!data/sessions/.gitkeep
+

@@ -1,0 +1,7 @@
+numpy==1.26.4
+opencv-python==4.10.0.84
+torch==2.2.2
+torchvision==0.17.2
+facenet-pytorch==2.6.0
+tqdm==4.66.5
+pytest==8.3.3

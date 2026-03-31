@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Attendance Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/ui.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">AT</div>
+        <div>
+          <h1>Smart Attendance Suite</h1>
+          <p>Realtime classroom attendance interface</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a class="nav-link active" href="index.html">Attendance</a>
+        <a class="nav-link" href="enrollment.html">Enrollment</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="row-between">
+        <div>
+          <h2>Live Attendance Dashboard</h2>
+          <p>Start a session to monitor backend camera feed, show student boxes with names, and track detections in the right panel. Roster data is loaded directly from backend database.</p>
+        </div>
+        <span id="sessionPill" class="pill warn">Session Off</span>
+      </div>
+      <div class="hero-grid">
+        <div class="metric">
+          <strong id="metricTime">00:00</strong>
+          <span>Session Time</span>
+        </div>
+        <div class="metric">
+          <strong id="metricDetected">0</strong>
+          <span>Detected Students</span>
+        </div>
+        <div class="metric">
+          <strong id="metricPending">0</strong>
+          <span>Pending Students</span>
+        </div>
+        <div class="metric">
+          <strong id="metricRoster">0</strong>
+          <span>Total Roster</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="stack">
+        <article class="card">
+          <div class="row-between">
+            <div>
+              <h3>Session Controls</h3>
+              <p class="sub">Camera feed plus UI overlay boxes for detected faces.</p>
+            </div>
+            <span id="backendPill" class="pill">Backend Checking</span>
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <button id="startBtn" class="btn btn-primary" type="button">Start Session</button>
+            <button id="stopBtn" class="btn btn-warn" type="button" disabled>Stop Session</button>
+            <button id="clearBtn" class="btn btn-soft" type="button">Clear Session</button>
+            <button id="syncBtn" class="btn btn-soft" type="button">Sync Roster From Backend</button>
+          </div>
+          <p id="sessionStatus" class="status">Session idle. Click Start Session.</p>
+          <div class="camera">
+            <img id="preview" alt="Attendance camera stream">
+            <div class="overlay-layer" id="overlayLayer"></div>
+            <span id="cameraNote" class="camera-note">Camera idle</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="row-between">
+            <div>
+              <h3>Roster Status</h3>
+              <p class="sub">Students expected in this session.</p>
+            </div>
+            <span id="rosterPill" class="pill">0 Students</span>
+          </div>
+          <div id="rosterList" class="list"></div>
+        </article>
+      </div>
+
+      <aside class="card">
+        <div class="row-between">
+          <div>
+            <h3>Detected Feed</h3>
+            <p class="sub">Newest detection appears first.</p>
+          </div>
+          <span id="feedPill" class="pill warn">Waiting</span>
+        </div>
+        <div id="detectedList" class="list"></div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="assets/attendance.js"></script>
+</body>
+</html>
+
